@@ -11,8 +11,10 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import ErrorPage from "./Pages/ErrorPage";
 import PrivateRoute from "./Components/PrivateRoute";
 import DashboardPage from "./Pages/secured/DashboardPage";
+import { FriendZContext } from "./context/context";
 
 export default function Routes() {
+  const { user } = React.useContext(FriendZContext);
   return (
     <>
       <Switch>
@@ -24,7 +26,11 @@ export default function Routes() {
         <PrivateRoute path="/dashboard">
           <DashboardPage></DashboardPage>
         </PrivateRoute>
-        <Route exact path="*" component={ErrorPage}></Route>
+        {user.token ? (
+          <PrivateRoute exact path="*" component={ErrorPage}></PrivateRoute>
+        ) : (
+          <Route exact path="*" component={ErrorPage}></Route>
+        )}
       </Switch>
     </>
   );

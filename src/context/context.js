@@ -11,6 +11,9 @@ function FriendZProvider({ children }) {
   };
 
   //state values
+  const [controlSidebar, setcontrolSidebar] = React.useState(false);
+  const [dropdown, setdropdown] = React.useState("");
+  const [sidebarOpen, setsidebarOpen] = React.useState(true);
   const [user, setuser] = React.useState(getUserFromSessionStorage);
 
   //sync user to sessionStorage
@@ -26,12 +29,31 @@ function FriendZProvider({ children }) {
     sessionStorage.clear();
   };
 
+  const toggleControlSidebar = () => {
+    setcontrolSidebar(!controlSidebar);
+  };
+
+  const handleDropdown = (value) => {
+    if (dropdown === value) value = "";
+    setdropdown(value);
+  };
+
+  const toggleSidebar = () => {
+    setsidebarOpen(!sidebarOpen);
+  };
+
   return (
     <FriendZContext.Provider
       value={{
         user,
         userLogin,
         userLogout,
+        controlSidebar,
+        toggleControlSidebar,
+        dropdown,
+        handleDropdown,
+        sidebarOpen,
+        toggleSidebar,
       }}
     >
       {children}

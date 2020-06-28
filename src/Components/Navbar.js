@@ -5,22 +5,22 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <NavbarWrapper>
-      <nav className="navbar navbar-expand navbar-transparent navbar-absolute fixed-top ">
+      <nav className="material-navbar material-navbar-expand material-navbar-transparent material-navbar-absolute fixed-top ">
         <div className="container-fluid">
-          <div className="navbar-wrapper">
-            <Link to="/" className="navbar-brand">
+          <div className="material-navbar-wrapper">
+            <Link to="/" className="material-navbar-brand">
               <b className="font-weight-bolder">F r i e n d</b> Z
             </Link>
           </div>
           <div>
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link to="/login" className="nav-link">
+            <ul className="material-navbar-material-nav">
+              <li className="material-nav-item">
+                <Link to="/login" className="material-nav-link text-white">
                   Sign in
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/issues">
+              <li className="material-nav-item">
+                <Link className="material-nav-link text-white" to="/issues">
                   Have an issue?
                 </Link>
               </li>

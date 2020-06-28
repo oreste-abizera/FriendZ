@@ -1,17 +1,121 @@
 import React from "react";
-import { FriendZContext } from "../../context/context";
+import Link from "react-router-dom/Link";
 
 export default function DashboardPage() {
-  const {
-    user: { info: user },
-    userLogout,
-  } = React.useContext(FriendZContext);
   return (
-    <div className="col-5 mx-auto mt-5">
-      hello <b>{user.firstName}</b>{" "}
-      <button className="btn btn-outline-danger" onClick={userLogout}>
-        Logout
-      </button>
+    // < !--Content Wrapper.Contains page content-- >
+    <div className="content-wrapper">
+      {/* <!-- Content Header (Page header) --> */}
+      <div className="content-header">
+        <div className="container-fluid">
+          <div className="row mb-2">
+            <div className="col-sm-6">
+              <h1 className="m-0 text-dark">
+                <b>Friend</b>Z
+              </h1>
+            </div>
+            {/* <!-- /.col --> */}
+            <div className="col-sm-6">
+              <ol className="breadcrumb float-sm-right">
+                <li className="breadcrumb-item">
+                  <Link to="/dashboard">Home</Link>
+                </li>
+                <li className="breadcrumb-item active">Dashboard</li>
+              </ol>
+            </div>
+            {/* <!-- /.col --> */}
+          </div>
+          {/* <!-- /.row --> */}
+        </div>
+        {/* <!-- /.container-fluid --> */}
+      </div>
+      {/* <!-- /.content-header --> */}
+
+      {/* <!-- Main content --> */}
+      <div className="content">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-lg-6">
+              <div className="card">
+                <div className="card-body">
+                  <h5 className="card-title">Card title</h5>
+
+                  <p className="card-text">
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card's content.
+                  </p>
+
+                  <a href="/dashboard" className="card-link">
+                    Card link
+                  </a>
+                  <a href="/dashboard" className="card-link">
+                    Another link
+                  </a>
+                </div>
+              </div>
+
+              <div className="card card-primary card-outline">
+                <div className="card-body">
+                  <h5 className="card-title">Card title</h5>
+
+                  <p className="card-text">
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card's content.
+                  </p>
+                  <a href="/dashboard" className="card-link">
+                    Card link
+                  </a>
+                  <a href="/dashboard" className="card-link">
+                    Another link
+                  </a>
+                </div>
+              </div>
+              {/* <!-- /.card --> */}
+            </div>
+            {/* <!-- /.col-md-6 --> */}
+            <div className="col-lg-6">
+              <div className="card">
+                <div className="card-header">
+                  <h5 className="m-0">Featured</h5>
+                </div>
+                <div className="card-body">
+                  <h6 className="card-title">Special title treatment</h6>
+
+                  <p className="card-text">
+                    With supporting text below as a natural lead-in to
+                    additional content.
+                  </p>
+                  <a href="/dashboard" className="btn btn-primary">
+                    Go somewhere
+                  </a>
+                </div>
+              </div>
+
+              <div className="card card-primary card-outline">
+                <div className="card-header">
+                  <h5 className="m-0">Featured</h5>
+                </div>
+                <div className="card-body">
+                  <h6 className="card-title">Special title treatment</h6>
+
+                  <p className="card-text">
+                    With supporting text below as a natural lead-in to
+                    additional content.
+                  </p>
+                  <a href="/dashboard" className="btn btn-primary">
+                    Go somewhere
+                  </a>
+                </div>
+              </div>
+            </div>
+            {/* <!-- /.col-md-6 --> */}
+          </div>
+          {/* <!-- /.row --> */}
+        </div>
+        {/* <!-- /.container-fluid --> */}
+      </div>
+      {/* <!-- /.content --> */}
     </div>
+    // <!-- /.content-wrapper -->
   );
 }

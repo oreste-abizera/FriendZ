@@ -23,10 +23,10 @@ body {
   /* background-color: rgba(0, 0, 0, 0.3) !important; */
   background: #e9ecef !important;
 }
-.navbar {
+.material-navbar {
   background: var(--primaryRGBA) !important;
   /* box-shadow: var(--primaryBoxShadow); */
 }
-.nav-link {
-  color: var(--mainWhite) !important;
+.right-0 {
+  right: 0 !important;
 }
