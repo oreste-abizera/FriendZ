@@ -21,11 +21,17 @@ function FriendZProvider({ children }) {
     setuser(user);
   };
 
+  const userLogout = () => {
+    setuser({ token: null, info: {} });
+    sessionStorage.clear();
+  };
+
   return (
     <FriendZContext.Provider
       value={{
         user,
         userLogin,
+        userLogout,
       }}
     >
       {children}
