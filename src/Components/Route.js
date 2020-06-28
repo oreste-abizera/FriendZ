@@ -2,7 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 // import Footer from "./Footer";
 import Navbar from "./Navbar";
-export default function UserRoute({ children, component, rest }) {
+export default function NormalRoute({ children, component, rest }) {
   return (
     <>
       <Navbar />
