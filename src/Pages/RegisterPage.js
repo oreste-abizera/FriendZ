@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import Link from "react-router-dom/Link";
+import registerUser from "../Auth/RegisterUser";
+import { FriendZContext } from "../context/context";
 
-export default function RegisterPage() {
+export default function RegisterPage({ history }) {
+  const { userLogin } = React.useContext(FriendZContext);
   const [fname, setfname] = useState("");
   const [lname, setlname] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
+  const [gender, setgender] = useState("");
 
   const handleFname = (e) => {
     setfname(e.target.value);
@@ -23,9 +27,27 @@ export default function RegisterPage() {
     setpassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleGender = (e) => {
+    setgender(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(fname, lname, email, password);
+    let response = await registerUser({
+      firstName: fname,
+      lastName: lname,
+      email,
+      password,
+      gender,
+    });
+    const { success, error, token } = response.data;
+    if (!success) {
+      window.displayError(error || "something went wrong");
+    } else {
+      let user = { token, info: {} };
+      userLogin(user);
+      history.push("/login");
+    }
   };
   return (
     <section className="register-page">
@@ -78,6 +100,18 @@ export default function RegisterPage() {
                   value={password}
                   onChange={handlePassword}
                 />
+              </div>
+              <div className="form-group">
+                <select
+                  className="form-control"
+                  required
+                  onChange={handleGender}
+                  value={gender}
+                >
+                  <option value="">Select your gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
               </div>
               <div className="row">
                 <div className="col-7">

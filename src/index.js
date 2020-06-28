@@ -5,7 +5,9 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
 import Swal from "sweetalert2";
+import { FriendZProvider } from "./context/context";
 window.Swal = Swal;
+
 window.displayError = (error) => {
   Swal.fire({
     icon: "error",
@@ -25,9 +27,11 @@ const toast = Swal.mixin({
 window.Toast = toast;
 
 ReactDOM.render(
-  <Router>
-    <App />
-  </Router>,
+  <FriendZProvider>
+    <Router>
+      <App />
+    </Router>
+  </FriendZProvider>,
   document.getElementById("root")
 );
 

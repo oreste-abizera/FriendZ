@@ -1,10 +1,16 @@
 import React from "react";
 import Link from "react-router-dom/Link";
+import loginUser from "../Auth/loginUser";
+import { FriendZContext } from "../context/context";
 
-export default function LoginPage() {
+export default function LoginPage({ history }) {
+  const { userLogin, user } = React.useContext(FriendZContext);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  if (user.token) {
+    history.push("/dashboard");
+  }
   const handleEmail = (e) => {
     setEmail(e.target.value);
   };
@@ -13,9 +19,16 @@ export default function LoginPage() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`email: ${email}, password: ${password}`);
+    let response = await loginUser(email, password);
+    const { success, error, token } = response.data;
+    if (!success) {
+      window.displayError(error || "something went wrong");
+    } else {
+      let user = { token, info: {} };
+      userLogin(user);
+    }
   };
   return (
     <section className="login-page">

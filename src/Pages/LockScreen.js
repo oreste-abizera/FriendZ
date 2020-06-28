@@ -1,8 +1,17 @@
 import React from "react";
 import Link from "react-router-dom/Link";
 import { FaLock } from "react-icons/fa";
+import { FriendZContext } from "../context/context";
 
-export default function LockScreen() {
+export default function LockScreen({ history }) {
+  const { user } = React.useContext(FriendZContext);
+  if (user.token) {
+    history.push("/dashboard");
+  }
+  if (!localStorage.getItem("user")) {
+    history.push("/login");
+  }
+
   let name = "John Doe";
   let image = "./assets/images/profile.jpg";
   const [password, setpassword] = React.useState("");

@@ -7,11 +7,11 @@ export default function ErrorPage() {
   return (
     <div className="container col-8" style={{ marginTop: "10%" }}>
       <section className="content">
-        <div className="login-logo">
+        {/* <div className="login-logo">
           <Link to="/">
             <b>Friend</b>Z
           </Link>
-        </div>
+        </div> */}
         <div className="error-page">
           <h2 className="headline text-warning"> 404</h2>
 
