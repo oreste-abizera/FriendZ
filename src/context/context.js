@@ -1,4 +1,5 @@
 import React from "react";
+import { getMe } from "../helpers/functions";
 const FriendZContext = React.createContext();
 
 function FriendZProvider({ children }) {
@@ -13,7 +14,8 @@ function FriendZProvider({ children }) {
   const [user, setuser] = React.useState(getUserFromSessionStorage);
 
   //sync user to sessionStorage
-  const userLogin = (user = { token: null, info: {} }) => {
+  const userLogin = async (user = { token: null, info: {} }) => {
+    user.info = await getMe(user.token);
     sessionStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("user", JSON.stringify(user.info._id));
     setuser(user);

@@ -2,9 +2,17 @@ import React from "react";
 import Link from "react-router-dom/Link";
 import { FaLock } from "react-icons/fa";
 import { FriendZContext } from "../context/context";
+import { getUser } from "../helpers/functions";
+import { url, defaultImage } from "../helpers/url";
+import loginUser from "../Auth/loginUser";
 
 export default function LockScreen({ history }) {
-  const { user } = React.useContext(FriendZContext);
+  const [password, setpassword] = React.useState("");
+  const [stateUser, setstateUser] = React.useState({
+    firstName: "",
+    lastName: "",
+  });
+  const { user, userLogin } = React.useContext(FriendZContext);
   if (user.token) {
     history.push("/dashboard");
   }
@@ -12,15 +20,42 @@ export default function LockScreen({ history }) {
     history.push("/login");
   }
 
-  let name = "John Doe";
-  let image = "./assets/images/profile.jpg";
-  const [password, setpassword] = React.useState("");
+  let id = localStorage.getItem("user");
+  if (id === "undefined" || id === "null") {
+    history.push("/login");
+  }
+
+  const getLockedUser = async () => {
+    let lockedUser = await getUser(
+      JSON.parse(localStorage.getItem("user")),
+      user.token
+    );
+    if (!lockedUser) {
+      history.push("/login");
+    }
+    setstateUser(lockedUser);
+  };
+
+  //call getLockedUser
+  getLockedUser();
+
+  let name = `${stateUser.firstName} ${stateUser.lastName}`;
+  let image = stateUser.image
+    ? `${url}/uploads/${stateUser.image}`
+    : defaultImage;
   const handlePassword = (e) => {
     setpassword(e.target.value);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`password: ${password}`);
+    let response = await loginUser(stateUser.email, password);
+    const { success, error, token } = response.data;
+    if (!success) {
+      window.displayError(error || "something went wrong");
+    } else {
+      let user = { token, info: {} };
+      userLogin(user);
+    }
   };
   return (
     <section className="lockscreen">
