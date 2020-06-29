@@ -13,7 +13,7 @@
   --mainBlack: #222;
   --mainTransition: all 0.3s ease-in-out;
   --mainSpacing: 0.3rem;
-  --mainRed: rgb(211, 8, 8);
+  --darkShadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
 }
 /* body {
   background: var(--mainGrey);
@@ -29,4 +29,22 @@ body {
 }
 .right-0 {
   right: 0 !important;
+}
+.profile-pic-container:hover,
+.background-pic-container:hover {
+  background: var(--primaryRGBA);
+}
+.update-prof-btn,
+.update-background-btn {
+  display: none !important;
+  color: var(--mainWhite) !important;
+}
+.profile-pic-container:hover .update-prof-btn,
+.background-pic-container:hover .update-background-btn {
+  display: block !important;
+}
+.update-background-btn {
+  position: absolute;
+  top: 20%;
+  right: 2rem;
 }

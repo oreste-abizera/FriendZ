@@ -22,6 +22,7 @@ export default function RightLinks() {
     dropdown,
     handleDropdown,
     userLogout,
+    user,
   } = React.useContext(FriendZContext);
 
   return (
@@ -151,7 +152,7 @@ export default function RightLinks() {
               : "dropdown-menu dropdown-menu-lg dropdown-menu-right"
           }
         >
-          <Link to="/profile" className="nav-link">
+          <Link to={`/profile/${user.info._id}`} className="nav-link">
             <FaUserEdit className="mr-2"></FaUserEdit> Profile
           </Link>
           <div className="dropdown-divider"></div>

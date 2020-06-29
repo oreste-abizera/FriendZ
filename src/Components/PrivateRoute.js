@@ -7,7 +7,8 @@ import Redirect from "react-router-dom/Redirect";
 import SecuredNavbar from "./Secured/SecuredNavbar";
 import Sidebar from "./Secured/Sidebar";
 import ControlSidebar from "./Secured/ControlSidebar";
-export default function PrivateRoute({ children, component, rest }) {
+export default function PrivateRoute(props) {
+  const { children, component, rest } = props;
   const { user, handleDropdown, sidebarOpen } = React.useContext(
     FriendZContext
   );
@@ -26,12 +27,14 @@ export default function PrivateRoute({ children, component, rest }) {
           onClick={() => {
             user.token && handleDropdown("");
           }}
+          style={{ minHeight: "65vh" }}
         >
           {user.token && <Sidebar></Sidebar>}
           {component ? (
             <Route
               {...rest}
               component={user.token ? component : LockScreen}
+              computedMatch={props.computedMatch}
             ></Route>
           ) : (
             <Route

@@ -15,20 +15,32 @@ export default function Sidebar() {
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       {/* <!-- Brand Logo --> */}
-      <Link to="/dashboard" className="brand-link">
-        <img
-          src={`${url}/uploads/logo.gif`}
-          alt="FriendZ"
-          className="brand-image img-circle elevation-3"
-          style={{ opacity: ".8" }}
-        />
-        <span className="brand-text font-weight-light">
-          <b>Friend</b>Z
-        </span>
-        <span className="float-right d-lg-none" onClick={toggleSidebar}>
+      <div style={{ position: "relative" }}>
+        <Link to="/dashboard" className="brand-link">
+          <img
+            src={`${url}/uploads/logo.gif`}
+            alt="FriendZ"
+            className="brand-image img-circle elevation-3"
+            style={{ opacity: ".8" }}
+          />
+          <span className="brand-text font-weight-light">
+            <b>Friend</b>Z
+          </span>
+        </Link>
+
+        <span
+          className="float-right d-lg-none"
+          onClick={toggleSidebar}
+          style={{
+            position: "absolute",
+            right: "1rem",
+            top: "1rem",
+            cursor: "pointer",
+          }}
+        >
           <MdClose className="text-white"></MdClose>
         </span>
-      </Link>
+      </div>
 
       {/* <!-- Sidebar --> */}
       <div className="sidebar">

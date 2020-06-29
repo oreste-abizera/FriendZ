@@ -13,20 +13,45 @@ function FriendZProvider({ children }) {
   //state values
   const [controlSidebar, setcontrolSidebar] = React.useState(false);
   const [dropdown, setdropdown] = React.useState("");
-  const [sidebarOpen, setsidebarOpen] = React.useState(true);
+  const [sidebarOpen, setsidebarOpen] = React.useState(false);
   const [user, setuser] = React.useState(getUserFromSessionStorage);
 
   //sync user to sessionStorage
-  const userLogin = async (user = { token: null, info: {} }) => {
-    user.info = await getMe(user.token);
-    sessionStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("user", JSON.stringify(user.info._id));
-    setuser(user);
+  const userLogin = async (data = { token: null, info: {} }) => {
+    data.info = await getMe(data.token);
+    sessionStorage.setItem("user", JSON.stringify(data));
+    localStorage.setItem("user", JSON.stringify(data.info._id));
+    setuser(data);
   };
 
   const userLogout = () => {
     setuser({ token: null, info: {} });
     sessionStorage.clear();
+  };
+
+  const reloadContent = () => {
+    if (user.token) {
+      userLogin(user);
+    }
+  };
+
+  //reload content on a page refresh
+  // if (user.token) {
+  //   reloadContent();
+  // }
+
+  const resolveResponse = (response, message) => {
+    let { success, error } = response.data;
+    if (success) {
+      if (message) {
+        window.Toast.fire({
+          title: message,
+        });
+      }
+      reloadContent();
+    } else {
+      window.displayError(error || "something went wrong");
+    }
   };
 
   const toggleControlSidebar = () => {
@@ -54,6 +79,8 @@ function FriendZProvider({ children }) {
         handleDropdown,
         sidebarOpen,
         toggleSidebar,
+        resolveResponse,
+        reloadContent,
       }}
     >
       {children}
