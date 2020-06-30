@@ -8,18 +8,34 @@ import {
   FaEnvelopeOpenText,
 } from "react-icons/fa";
 import { FriendZContext } from "../../context/context";
+import { getUserPosts } from "../../helpers/functions";
 
 export default function ProfileInfo({
   user = { firstName: "", lastName: "" },
 }) {
   const {
     user: { info },
+    user: me,
   } = React.useContext(FriendZContext);
+  const [posts, setposts] = React.useState([]);
+
   let image = user.image ? `${url}/uploads/${user.image}` : defaultImage;
   let name =
     user.firstName && user.lastName
       ? `${user.firstName} ${user.lastName}`
       : "loading ...";
+
+  async function loadPosts() {
+    let tempPosts = await getUserPosts(user._id, me.token);
+    tempPosts = tempPosts.filter((item) => item.user._id === user._id);
+    setposts(tempPosts || []);
+  }
+
+  React.useEffect(() => {
+    if (user._id) {
+      loadPosts();
+    }
+  }, [me, user]);
   return (
     <>
       {/* card */}
@@ -80,7 +96,7 @@ export default function ProfileInfo({
               <b>Following</b> <span className="float-right">543</span>
             </li>
             <li className="list-group-item">
-              <b>Posts</b> <span className="float-right">287</span>
+              <b>Posts</b> <span className="float-right">{posts.length}</span>
             </li>
           </ul>
 

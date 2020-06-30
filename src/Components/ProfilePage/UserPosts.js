@@ -14,7 +14,7 @@ export default function UserPosts({ id }) {
     loadPosts();
   }, [id, user]);
   return (
-    <div>
+    <div style={{ height: "80vh", overflow: "auto" }}>
       {posts.length === 0 && <p>No posts yet</p>}
       {posts.map((item) => (
         <Post key={item._id} data={item}></Post>

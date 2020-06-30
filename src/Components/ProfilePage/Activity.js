@@ -4,6 +4,7 @@ import UpdateProfile from "./UpdateProfile";
 import Link from "react-router-dom/Link";
 import UpdatePassword from "./UpdatePassword";
 import UserPosts from "./UserPosts";
+import UserPhotos from "./UserPhotos";
 
 export default function Activity({ history, settings = false, id }) {
   const [activity, setactivity] = React.useState("activity");
@@ -67,7 +68,9 @@ export default function Activity({ history, settings = false, id }) {
         <div className="tab-content">
           <div
             className={
-              activity === "activity" ? "tab-pane active show" : "tab-pane"
+              activity === "activity"
+                ? "tab-pane active col-md-7 show"
+                : "tab-pane"
             }
             id="activity"
           >
@@ -79,7 +82,7 @@ export default function Activity({ history, settings = false, id }) {
             }
             id="photos"
           >
-            hello from photos
+            <UserPhotos id={id}></UserPhotos>
           </div>
 
           <div

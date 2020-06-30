@@ -59,15 +59,18 @@ export default function Post({ data = {} }) {
       </div>
       {/* <!-- /.user-block --> */}
       <p>{data.text}</p>
-      {data.photos.length > 0 &&
-        data.photos.map((item, index) => (
-          <img
-            key={index}
-            alt=""
-            src={`${url}/uploads/${item}`}
-            className="img-fluid"
-          ></img>
-        ))}
+      <div className="text-center">
+        {data.photos.length > 0 &&
+          data.photos.map((item, index) => (
+            <img
+              key={index}
+              alt=""
+              src={`${url}/uploads/${item}`}
+              className="img-fluid"
+              style={{ maxHeight: "25rem" }}
+            ></img>
+          ))}
+      </div>
 
       <p className="mt-4">
         <a href="/" className="link-black text-sm mr-2">

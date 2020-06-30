@@ -31,7 +31,7 @@ export default function PostsContainer() {
         </div>
       </div>
       {/* display posts */}
-      <div className="card">
+      <div className="card" style={{ height: "72vh", overflow: "auto" }}>
         {posts.map((item) => (
           <Post key={item._id} data={item}></Post>
         ))}
