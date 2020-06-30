@@ -1,5 +1,5 @@
 import React from "react";
-import Post from "./Post";
+// import Post from "../Post";
 import UpdateProfile from "./UpdateProfile";
 import Link from "react-router-dom/Link";
 import UpdatePassword from "./UpdatePassword";
@@ -70,8 +70,9 @@ export default function Activity({ settings = false }) {
             }
             id="activity"
           >
-            <Post></Post>
-            <Post></Post>
+            {/* <Post></Post>
+            <Post></Post> */}
+            hello from activity
           </div>
           <div
             className={

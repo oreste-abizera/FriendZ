@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "react-router-dom/Link";
+import LatestMembers from "../../Components/DashboardPage/LatestMembers";
+import PostsContainer from "../../Components/DashboardPage/PostsContainer";
 
 export default function DashboardPage() {
   return (
@@ -35,80 +37,12 @@ export default function DashboardPage() {
       <div className="content">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-lg-6">
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title">Card title</h5>
-
-                  <p className="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-
-                  <a href="/dashboard" className="card-link">
-                    Card link
-                  </a>
-                  <a href="/dashboard" className="card-link">
-                    Another link
-                  </a>
-                </div>
-              </div>
-
-              <div className="card card-primary card-outline">
-                <div className="card-body">
-                  <h5 className="card-title">Card title</h5>
-
-                  <p className="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <a href="/dashboard" className="card-link">
-                    Card link
-                  </a>
-                  <a href="/dashboard" className="card-link">
-                    Another link
-                  </a>
-                </div>
-              </div>
-              {/* <!-- /.card --> */}
+            <div className="col-12 col-lg-8 mx-auto">
+              <PostsContainer></PostsContainer>
             </div>
-            {/* <!-- /.col-md-6 --> */}
-            <div className="col-lg-6">
-              <div className="card">
-                <div className="card-header">
-                  <h5 className="m-0">Featured</h5>
-                </div>
-                <div className="card-body">
-                  <h6 className="card-title">Special title treatment</h6>
-
-                  <p className="card-text">
-                    With supporting text below as a natural lead-in to
-                    additional content.
-                  </p>
-                  <a href="/dashboard" className="btn btn-primary">
-                    Go somewhere
-                  </a>
-                </div>
-              </div>
-
-              <div className="card card-primary card-outline">
-                <div className="card-header">
-                  <h5 className="m-0">Featured</h5>
-                </div>
-                <div className="card-body">
-                  <h6 className="card-title">Special title treatment</h6>
-
-                  <p className="card-text">
-                    With supporting text below as a natural lead-in to
-                    additional content.
-                  </p>
-                  <a href="/dashboard" className="btn btn-primary">
-                    Go somewhere
-                  </a>
-                </div>
-              </div>
+            <div className="col-12 mx-auto col-lg-4">
+              <LatestMembers></LatestMembers>
             </div>
-            {/* <!-- /.col-md-6 --> */}
           </div>
           {/* <!-- /.row --> */}
         </div>

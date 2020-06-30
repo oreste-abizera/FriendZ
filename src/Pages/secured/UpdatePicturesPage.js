@@ -2,7 +2,7 @@ import React from "react";
 import Link from "react-router-dom/Link";
 import ProfilePicture from "../../Components/UpdatePictures/ProfilePicture";
 
-export default function UpdatePicturesPage() {
+export default function UpdatePicturesPage({ history }) {
   return (
     <div className="content-wrapper">
       {/* <!-- Content Header (Page header) --> */}
@@ -27,11 +27,11 @@ export default function UpdatePicturesPage() {
 
       <div className="container-fluid row">
         <div className="col-12 col-md-6 mx-auto text-center">
-          <ProfilePicture></ProfilePicture>
+          <ProfilePicture history={history}></ProfilePicture>
         </div>
 
         <div className="col-12 col-md-6 mx-auto text-center">
-          <ProfilePicture cover={true}></ProfilePicture>
+          <ProfilePicture history={history} cover={true}></ProfilePicture>
         </div>
       </div>
     </div>

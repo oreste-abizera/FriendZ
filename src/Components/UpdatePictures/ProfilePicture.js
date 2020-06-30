@@ -6,7 +6,7 @@ import {
   updateMyCoverPicture,
 } from "../../helpers/functions";
 
-export default function ProfilePicture({ cover = false }) {
+export default function ProfilePicture({ history, cover = false }) {
   const [image, setimage] = React.useState(null);
   const { user, resolveResponse } = React.useContext(FriendZContext);
 
@@ -28,6 +28,7 @@ export default function ProfilePicture({ cover = false }) {
       response,
       cover ? "Cover photo updated" : "Profile picture updated"
     );
+    history.push(`/profile/${user.info._id}`);
   };
   return (
     <>

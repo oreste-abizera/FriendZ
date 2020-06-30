@@ -14,6 +14,7 @@ import DashboardPage from "./Pages/secured/DashboardPage";
 import { FriendZContext } from "./context/context";
 import ProfilePage from "./Pages/secured/ProfilePage";
 import UpdatePicturesPage from "./Pages/secured/UpdatePicturesPage";
+import CreatePostsPage from "./Pages/secured/CreatePostsPage";
 
 export default function Routes() {
   const { user } = React.useContext(FriendZContext);
@@ -40,6 +41,12 @@ export default function Routes() {
           exact
           path="/updatePictures"
           component={UpdatePicturesPage}
+        ></PrivateRoute>
+
+        <PrivateRoute
+          exact
+          path="/createPost"
+          component={CreatePostsPage}
         ></PrivateRoute>
 
         {user.token ? (
