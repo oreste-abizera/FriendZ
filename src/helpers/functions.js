@@ -22,6 +22,17 @@ export async function getUser(id, token) {
   return response.data.data;
 }
 
+export async function getUsers(token) {
+  let response = await axios
+    .get(`${url}/api/v1/users`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .catch((err) => (response = err.response));
+  return response.data.data;
+}
+
 export async function getLatestMembers(token) {
   let response = await axios
     .get(`${url}/api/v1/users/latest`, {
@@ -36,6 +47,17 @@ export async function getLatestMembers(token) {
 export async function getPosts(token) {
   let response = await axios
     .get(`${url}/api/v1/posts`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .catch((err) => (response = err.response));
+  return response.data.data;
+}
+
+export async function getUserPosts(id, token) {
+  let response = await axios
+    .get(`${url}/api/v1/posts/user/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

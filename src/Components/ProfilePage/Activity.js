@@ -3,8 +3,9 @@ import React from "react";
 import UpdateProfile from "./UpdateProfile";
 import Link from "react-router-dom/Link";
 import UpdatePassword from "./UpdatePassword";
+import UserPosts from "./UserPosts";
 
-export default function Activity({ settings = false }) {
+export default function Activity({ history, settings = false, id }) {
   const [activity, setactivity] = React.useState("activity");
   const handleActivity = (value) => {
     setactivity(value);
@@ -70,9 +71,7 @@ export default function Activity({ settings = false }) {
             }
             id="activity"
           >
-            {/* <Post></Post>
-            <Post></Post> */}
-            hello from activity
+            <UserPosts id={id}></UserPosts>
           </div>
           <div
             className={
@@ -89,8 +88,8 @@ export default function Activity({ settings = false }) {
             }
             id="settings"
           >
-            <UpdateProfile></UpdateProfile>
-            <UpdatePassword></UpdatePassword>
+            <UpdateProfile history={history}></UpdateProfile>
+            <UpdatePassword history={history}></UpdatePassword>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { getMe } from "../helpers/functions";
+import { getMe, getUsers } from "../helpers/functions";
 const FriendZContext = React.createContext();
 
 function FriendZProvider({ children }) {
@@ -15,6 +15,8 @@ function FriendZProvider({ children }) {
   const [dropdown, setdropdown] = React.useState("");
   const [sidebarOpen, setsidebarOpen] = React.useState(false);
   const [user, setuser] = React.useState(getUserFromSessionStorage);
+  const [users, setusers] = React.useState([]);
+  const [reload, setreload] = React.useState(false);
 
   //sync user to sessionStorage
   const userLogin = async (data = { token: null, info: {} }) => {
@@ -30,15 +32,20 @@ function FriendZProvider({ children }) {
   };
 
   const reloadContent = () => {
+    setreload(!reload);
+  };
+  const mount = async () => {
     if (user.token) {
-      userLogin(user);
+      setusers(await getUsers(user.token));
     }
   };
 
-  //reload content on a page refresh
-  // if (user.token) {
-  //   reloadContent();
-  // }
+  React.useEffect(() => {
+    if (user.token) {
+      userLogin(user);
+    }
+    mount();
+  }, [user, reload]);
 
   const resolveResponse = (response, message) => {
     let { success, error } = response.data;
@@ -71,6 +78,7 @@ function FriendZProvider({ children }) {
     <FriendZContext.Provider
       value={{
         user,
+        users,
         userLogin,
         userLogout,
         controlSidebar,

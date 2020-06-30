@@ -2,7 +2,7 @@ import React from "react";
 import { updateMyPassword } from "../../helpers/functions";
 import { FriendZContext } from "../../context/context";
 
-export default function UpdatePassword() {
+export default function UpdatePassword({ history }) {
   const { resolveResponse, user } = React.useContext(FriendZContext);
   const [password, setpassword] = React.useState("");
   const [newPassword, setnewPassword] = React.useState("");
@@ -25,6 +25,7 @@ export default function UpdatePassword() {
       user.token
     );
     resolveResponse(response, "Password successifully changed");
+    history.push("/dashboard");
   };
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>

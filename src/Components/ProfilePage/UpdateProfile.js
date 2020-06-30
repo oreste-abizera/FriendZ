@@ -3,7 +3,7 @@ import { FriendZContext } from "../../context/context";
 import Link from "react-router-dom/Link";
 import { updateMyProfile } from "../../helpers/functions";
 
-export default function UpdateProfile() {
+export default function UpdateProfile({ history }) {
   const { user, resolveResponse } = React.useContext(FriendZContext);
   const { info } = user;
 
@@ -49,6 +49,7 @@ export default function UpdateProfile() {
     };
     let response = await updateMyProfile(updates, user.token);
     resolveResponse(response, "Profile info successifully updated.");
+    history.push(`/dashboard`);
   };
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>

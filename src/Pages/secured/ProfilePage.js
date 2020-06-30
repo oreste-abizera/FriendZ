@@ -51,6 +51,8 @@ export default function ProfilePage(props) {
             </div>
             <div className="col-md-8">
               <Activity
+                id={id}
+                history={props.history}
                 settings={id === me.info._id.toString() ? true : false}
               ></Activity>
             </div>
