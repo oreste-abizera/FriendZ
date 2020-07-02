@@ -8,7 +8,7 @@ export default function UserPosts({ id }) {
   const { user } = React.useContext(FriendZContext);
   async function loadPosts() {
     let tempPosts = await getUserPosts(id, user.token);
-    setposts(tempPosts);
+    setposts(tempPosts || []);
   }
   React.useEffect(() => {
     loadPosts();

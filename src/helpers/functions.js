@@ -8,7 +8,7 @@ export async function getMe(token) {
       },
     })
     .catch((err) => (response = err.response));
-  return response.data.data;
+  return response.data.data || [];
 }
 
 export async function getUser(id, token) {
@@ -19,7 +19,7 @@ export async function getUser(id, token) {
       },
     })
     .catch((err) => (response = err.response));
-  return response.data.data;
+  return response.data.data || [];
 }
 
 export async function getUsers(token) {
@@ -30,7 +30,7 @@ export async function getUsers(token) {
       },
     })
     .catch((err) => (response = err.response));
-  return response.data.data;
+  return response.data.data || [];
 }
 
 export async function getLatestMembers(token) {
@@ -41,7 +41,7 @@ export async function getLatestMembers(token) {
       },
     })
     .catch((err) => (response = err.response));
-  return response.data.data;
+  return response.data.data || [];
 }
 
 export async function getPosts(token) {
@@ -52,7 +52,7 @@ export async function getPosts(token) {
       },
     })
     .catch((err) => (response = err.response));
-  return response.data.data;
+  return response.data.data || [];
 }
 
 export async function getUserPosts(id, token) {
@@ -63,7 +63,7 @@ export async function getUserPosts(id, token) {
       },
     })
     .catch((err) => (response = err.response));
-  return response.data.data;
+  return response.data.data || [];
 }
 
 export async function updateMyProfile(updates, token) {

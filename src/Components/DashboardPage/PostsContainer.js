@@ -10,7 +10,7 @@ export default function PostsContainer() {
 
   const loadPosts = async () => {
     let tempPosts = await getPosts(user.token);
-    setposts(tempPosts);
+    setposts(tempPosts || []);
   };
   React.useEffect(() => {
     loadPosts();
