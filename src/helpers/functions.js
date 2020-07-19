@@ -19,7 +19,8 @@ export async function getUser(id, token) {
       },
     })
     .catch((err) => (response = err.response));
-  return response.data.data || [];
+  if (!response) return {};
+  return response.data.data || {};
 }
 
 export async function getUsers(token) {

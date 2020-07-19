@@ -33,6 +33,7 @@ export default function RegisterPage({ history }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("submitting data...");
     let response = await registerUser({
       firstName: fname,
       lastName: lname,
@@ -40,13 +41,20 @@ export default function RegisterPage({ history }) {
       password,
       gender,
     });
-    const { success, error, token } = response.data;
-    if (!success) {
-      window.displayError(error || "something went wrong");
+    if (!response) {
+      window.Swal.fire({
+        title: "Something went wrong please try again later.",
+        icon: "error",
+      });
     } else {
-      let user = { token, info: {} };
-      userLogin(user);
-      history.push("/login");
+      const { success, error, token } = response.data;
+      if (!success) {
+        window.displayError(error || "something went wrong");
+      } else {
+        let user = { token, info: {} };
+        userLogin(user);
+        history.push("/login");
+      }
     }
   };
   return (

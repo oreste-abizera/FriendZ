@@ -21,13 +21,21 @@ export default function LoginPage({ history }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("loging in...");
     let response = await loginUser(email, password);
-    const { success, error, token } = response.data;
-    if (!success) {
-      window.displayError(error || "something went wrong");
+    if (!response) {
+      window.Swal.fire({
+        title: "Something went wrong please try again later.",
+        icon: "error",
+      });
     } else {
-      let user = { token, info: {} };
-      userLogin(user);
+      const { success, error, token } = response.data;
+      if (!success) {
+        window.displayError(error || "something went wrong");
+      } else {
+        let user = { token, info: {} };
+        userLogin(user);
+      }
     }
   };
   return (

@@ -30,7 +30,7 @@ export default function LockScreen({ history }) {
       JSON.parse(localStorage.getItem("user")),
       user.token
     );
-    if (!lockedUser) {
+    if (!lockedUser._id) {
       history.push("/login");
     }
     setstateUser(lockedUser);
