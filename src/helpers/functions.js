@@ -113,3 +113,30 @@ export async function createPost(data, token) {
     .catch((err) => (response = err.response));
   return response;
 }
+
+export async function commentOnPost(comment, post, token) {
+  let response = await axios
+    .post(
+      `${url}/api/v1/posts/${post}/comments`,
+      {
+        comment,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .catch((err) => (response = err.response));
+  return response;
+}
+
+export async function getPostComments(post, token) {
+  let response;
+  response = await axios
+    .get(`${url}/api/v1/posts/${post}/comments`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .catch((err) => (response = err.response));
+  return response ? response.data.data || [] : [];
+}

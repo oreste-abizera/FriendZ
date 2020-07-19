@@ -1,6 +1,6 @@
 import React from "react";
 import { FriendZContext } from "../../context/context";
-import { url, defaultImage } from "../../helpers/url";
+import { url, defaultImage, logo } from "../../helpers/url";
 import Link from "react-router-dom/Link";
 import { FaAngleLeft, FaDotCircle, FaComments } from "react-icons/fa";
 import { MdDashboard, MdClose } from "react-icons/md";
@@ -18,7 +18,7 @@ export default function Sidebar() {
       <div style={{ position: "relative" }}>
         <Link to="/dashboard" className="brand-link">
           <img
-            src={`${url}/uploads/logo.gif`}
+            src={logo}
             alt="FriendZ"
             className="brand-image img-circle elevation-3"
             style={{ opacity: ".8" }}

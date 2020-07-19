@@ -2,12 +2,17 @@ import React from "react";
 import Link from "react-router-dom/Link";
 import { FaShare, FaThumbsUp, FaComments } from "react-icons/fa";
 import { url, defaultImage } from "../helpers/url";
-import { getUser } from "../helpers/functions";
+import { getUser, commentOnPost, getPostComments } from "../helpers/functions";
 import { FriendZContext } from "../context/context";
+import Comment from "./Comment";
 
 export default function Post({ data = {} }) {
   const [tags, settags] = React.useState([]);
-  const { user } = React.useContext(FriendZContext);
+  const [comment, setcomment] = React.useState("");
+  const [comments, setcomments] = React.useState([]);
+  const [load, setload] = React.useState(true);
+
+  const { user, resolveResponse } = React.useContext(FriendZContext);
   let image = data.user.image
     ? `${url}/uploads/${data.user.image}`
     : defaultImage;
@@ -28,9 +33,31 @@ export default function Post({ data = {} }) {
     settags(temptags);
   }
 
+  async function loadComments() {
+    let tempComments = await getPostComments(data._id, user.token);
+    setcomments(tempComments);
+  }
+
   React.useEffect(() => {
     populateTags();
   }, [user, data]);
+
+  React.useEffect(() => {
+    loadComments();
+  }, [load]);
+
+  const handleComment = (e) => {
+    setcomment(e.target.value);
+  };
+
+  const leaveComment = async (e) => {
+    e.preventDefault();
+    let response = await commentOnPost(comment, data._id, user.token);
+    if (response.data.success) {
+      setload(!load);
+      resolveResponse(response, "comment added");
+    }
+  };
   return (
     <div className="post p-3">
       <div className="user-block">
@@ -73,24 +100,40 @@ export default function Post({ data = {} }) {
       </div>
 
       <p className="mt-4">
-        <a href="/" className="link-black text-sm mr-2">
+        <Link to="#share" className="link-black text-sm mr-2">
           <FaShare></FaShare> Share
-        </a>{" "}
-        <a href="/" className="link-black text-sm">
+        </Link>{" "}
+        <Link to="#like" className="link-primary text-sm">
           <FaThumbsUp></FaThumbsUp> Like
-        </a>
+        </Link>
         <span className="float-right">
-          <a href="/" className="link-black text-sm">
-            <FaComments></FaComments> Comments (5)
-          </a>
+          <Link to="#likes" className="link-black text-sm">
+            127 likes -{" "}
+          </Link>
+          <Link to="#comments" className="link-black text-sm">
+            <FaComments className="ml-2"></FaComments> Comments (
+            {comments.length})
+          </Link>
         </span>
       </p>
 
-      <input
-        className="form-control form-control-sm"
-        type="text"
-        placeholder="Type a comment"
-      />
+      <div className="comments">
+        {comments.length > 0 && (
+          <Comment data={comments[comments.length - 1]}></Comment>
+        )}
+      </div>
+
+      {/* leave a comment */}
+      <form className="form-container" onSubmit={leaveComment}>
+        <input
+          className="form-control form-control-sm"
+          type="text"
+          placeholder="Type a comment"
+          name="comment"
+          onChange={handleComment}
+          value={comment}
+        />
+      </form>
     </div>
   );
 }
