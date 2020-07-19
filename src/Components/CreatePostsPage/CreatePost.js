@@ -68,9 +68,12 @@ export default function CreatePost({ history }) {
     data.append("text", text);
     data.append("file", photo);
     data.append("tags", tempTags);
+    data.append("createdAt", new Date(Date.now()).toISOString());
     let response = await createPost(data, user.token);
     resolveResponse(response, "Post created");
-    history.push("/dashboard");
+    if (response.data.success) {
+      history.push("/dashboard");
+    }
   };
   return (
     <div className="card pb-3 col-12 col-md-10 col-lg-8 mx-auto">

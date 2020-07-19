@@ -18,6 +18,7 @@ export default function ProfilePicture({ history, cover = false }) {
     e.preventDefault();
     let data = new FormData();
     data.append("file", image);
+    data.append("createdAt", new Date(Date.now()).toISOString());
     let response;
     if (cover) {
       response = await updateMyCoverPicture(data, user.token);
@@ -28,7 +29,9 @@ export default function ProfilePicture({ history, cover = false }) {
       response,
       cover ? "Cover photo updated" : "Profile picture updated"
     );
-    history.push(`/profile/${user.info._id}`);
+    if (response.data.success) {
+      history.push(`/profile/${user.info._id}`);
+    }
   };
   return (
     <>
