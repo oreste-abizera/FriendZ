@@ -2,31 +2,37 @@ import React from "react";
 import Link from "react-router-dom/Link";
 import { FaShare, FaThumbsUp, FaComments } from "react-icons/fa";
 import { url, defaultImage } from "../helpers/url";
-import { getUser, commentOnPost, getPostComments } from "../helpers/functions";
+import {
+  getUser,
+  commentOnPost,
+  getPostComments,
+  likePost,
+  getPost,
+} from "../helpers/functions";
 import { FriendZContext } from "../context/context";
 import Comment from "./Comment";
 
 export default function Post({ data = {} }) {
+  const { user, resolveResponse, formatTime } = React.useContext(
+    FriendZContext
+  );
+  const [post, setpost] = React.useState(data);
   const [tags, settags] = React.useState([]);
   const [comment, setcomment] = React.useState("");
   const [comments, setcomments] = React.useState([]);
   const [load, setload] = React.useState(true);
+  const [liked, setliked] = React.useState(false);
 
-  const { user, resolveResponse } = React.useContext(FriendZContext);
-  let image = data.user.image
-    ? `${url}/uploads/${data.user.image}`
+  let image = post.user.image
+    ? `${url}/uploads/${post.user.image}`
     : defaultImage;
-  let name = `${data.user.firstName} ${data.user.lastName}`;
-  let createdAt = data.createdAt;
-  let date = createdAt.split("T")[0];
-  let rest = createdAt.split("T")[1];
-  let time = `${rest.split(":")[0]}:${rest.split(":")[1]}`;
-  let finalTime = `${date} ${time}`;
+  let name = `${post.user.firstName} ${post.user.lastName}`;
+  let createdAt = post.createdAt;
 
   async function populateTags() {
     let temptags = [];
-    for (let i = 0; i < data.tags.length; i++) {
-      const activeTag = data.tags[i];
+    for (let i = 0; i < post.tags.length; i++) {
+      const activeTag = post.tags[i];
       let formatedTag = await getUser(activeTag, user.token);
       temptags[i] = formatedTag;
     }
@@ -34,17 +40,15 @@ export default function Post({ data = {} }) {
   }
 
   async function loadComments() {
-    let tempComments = await getPostComments(data._id, user.token);
+    let tempComments = await getPostComments(post._id, user.token);
     setcomments(tempComments);
   }
 
   React.useEffect(() => {
     populateTags();
-  }, [user, data]);
-
-  React.useEffect(() => {
+    setliked(post.likes.includes(user.info._id));
     loadComments();
-  }, [load]);
+  }, [user, post, load]);
 
   const handleComment = (e) => {
     setcomment(e.target.value);
@@ -52,23 +56,31 @@ export default function Post({ data = {} }) {
 
   const leaveComment = async (e) => {
     e.preventDefault();
-    let response = await commentOnPost(comment, data._id, user.token);
+    let response = await commentOnPost(comment, post._id, user.token);
     if (response.data.success) {
+      setcomment("");
       setload(!load);
       resolveResponse(response, "comment added");
     }
   };
+
+  const handlelike = async () => {
+    let response = await likePost(post._id, user.token);
+    if (response.data.success) {
+      setpost(await getPost(data._id, user.token));
+    }
+  };
   return (
-    <div className="post p-3">
-      <div className="user-block">
+    <div className="post p-3 card card-widget">
+      <div className="user-block card-header">
         <img className="img-circle img-bordered-sm" src={image} alt="user" />
         <span className="username">
-          <Link to={`/profile/${data.user._id}`}>{name}</Link>{" "}
+          <Link to={`/profile/${post.user._id}`}>{name}</Link>{" "}
           <span>
-            {data.message}{" "}
+            {post.message}{" "}
             {tags.length > 0 && (
               <span>
-                {data.message ? " with " : " is with "}
+                {post.message ? " with " : " is with "}
                 <Link to={`profile/${tags[0]._id}`}>
                   <b>{tags[0].firstName + " " + tags[0].lastName}</b>
                 </Link>
@@ -78,17 +90,16 @@ export default function Post({ data = {} }) {
               </span>
             )}
           </span>
-          {/* <a href="/" className="float-right btn-tool">
-            <FaTimes></FaTimes>
-          </a> */}
         </span>
-        <span className="description">Shared publicly - {finalTime}</span>
+        <span className="description">
+          Shared publicly - {formatTime(createdAt)}
+        </span>
       </div>
       {/* <!-- /.user-block --> */}
-      <p>{data.text}</p>
+      <p>{post.text}</p>
       <div className="text-center">
-        {data.photos.length > 0 &&
-          data.photos.map((item, index) => (
+        {post.photos.length > 0 &&
+          post.photos.map((item, index) => (
             <img
               key={index}
               alt=""
@@ -103,12 +114,16 @@ export default function Post({ data = {} }) {
         <Link to="#share" className="link-black text-sm mr-2">
           <FaShare></FaShare> Share
         </Link>{" "}
-        <Link to="#like" className="link-primary text-sm">
+        <Link
+          to="#like"
+          className={liked ? "link-primary text-sm" : "link-black text-sm"}
+          onClick={handlelike}
+        >
           <FaThumbsUp></FaThumbsUp> Like
         </Link>
         <span className="float-right">
           <Link to="#likes" className="link-black text-sm">
-            127 likes -{" "}
+            {post.likes.length} likes -{" "}
           </Link>
           <Link to="#comments" className="link-black text-sm">
             <FaComments className="ml-2"></FaComments> Comments (
@@ -117,7 +132,7 @@ export default function Post({ data = {} }) {
         </span>
       </p>
 
-      <div className="comments">
+      <div className="card-footer card-comments">
         {comments.length > 0 && (
           <Comment data={comments[comments.length - 1]}></Comment>
         )}
@@ -125,14 +140,21 @@ export default function Post({ data = {} }) {
 
       {/* leave a comment */}
       <form className="form-container" onSubmit={leaveComment}>
-        <input
-          className="form-control form-control-sm"
-          type="text"
-          placeholder="Type a comment"
-          name="comment"
-          onChange={handleComment}
-          value={comment}
-        />
+        <img
+          className="img-fluid img-circle img-sm"
+          src={`${url}/uploads/${user.info.image}`}
+          alt=""
+        ></img>
+        <div className="img-push">
+          <input
+            className="form-control form-control-sm"
+            type="text"
+            placeholder="Type a comment"
+            name="comment"
+            onChange={handleComment}
+            value={comment}
+          />
+        </div>
       </form>
     </div>
   );

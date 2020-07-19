@@ -20,6 +20,10 @@ export default function ProfilePage(props) {
     loadInfo();
     return () => {};
   }, [id, me]);
+
+  if (!user._id) {
+    return <div className="text-center">Loading ...</div>;
+  }
   return (
     <div className="content-wrapper">
       {/* <!-- Content Header (Page header) --> */}

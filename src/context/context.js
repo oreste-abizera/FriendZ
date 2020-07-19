@@ -74,6 +74,30 @@ function FriendZProvider({ children }) {
     setsidebarOpen(!sidebarOpen);
   };
 
+  const formatTime = (timeToFormat) => {
+    let today = new Date().toISOString();
+    let time = new Date(timeToFormat).toISOString();
+    let date = time.split("T")[0];
+    let rest = time.split("T")[1];
+
+    let hours = rest.split(":")[0];
+    let minutes = rest.split(":")[1];
+
+    let finalDate;
+    if (date === today.split("T")[0]) {
+      finalDate = "today";
+    } else {
+      finalDate =
+        date.split("-")[2] +
+        "/" +
+        date.split("-")[1] +
+        "/" +
+        date.split("-")[0];
+    }
+    time = hours + ":" + minutes + " " + finalDate;
+    return time;
+  };
+
   return (
     <FriendZContext.Provider
       value={{
@@ -89,6 +113,7 @@ function FriendZProvider({ children }) {
         toggleSidebar,
         resolveResponse,
         reloadContent,
+        formatTime,
       }}
     >
       {children}

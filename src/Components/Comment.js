@@ -1,19 +1,25 @@
 import React from "react";
 import { url } from "../helpers/url";
+import { FriendZContext } from "../context/context";
 
 export default function Comment({ data = {} }) {
+  const { formatTime } = React.useContext(FriendZContext);
   return (
-    <div className="media my-2">
+    <div className="card-comment">
       <img
+        className="img-circle img-sm"
         src={`${url}/uploads/${data.user.image}`}
         alt="User"
-        className="img-size-50 mr-3 img-circle"
       />
-      <div className="media-body">
-        <h3 className="dropdown-item-title">
+
+      <div className="comment-text">
+        <span className="username">
           {data.user.firstName + " " + data.user.lastName}
-        </h3>
-        <p className="text-sm">{data.message}</p>
+          <span className="text-muted float-right">
+            {formatTime(data.createdAt)}
+          </span>
+        </span>
+        {data.message}
       </div>
     </div>
   );

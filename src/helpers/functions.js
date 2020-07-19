@@ -56,6 +56,16 @@ export async function getPosts(token) {
   return response.data.data || [];
 }
 
+export async function getPost(post, token) {
+  let response;
+  response = await axios
+    .get(`${url}/api/v1/posts/${post}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .catch((err) => (response = err.response));
+  return response ? response.data.data || {} : {};
+}
+
 export async function getUserPosts(id, token) {
   let response = await axios
     .get(`${url}/api/v1/posts/user/${id}`, {
@@ -120,6 +130,7 @@ export async function commentOnPost(comment, post, token) {
       `${url}/api/v1/posts/${post}/comments`,
       {
         comment,
+        createdAt: new Date().toISOString(),
       },
       {
         headers: {
@@ -139,4 +150,20 @@ export async function getPostComments(post, token) {
     })
     .catch((err) => (response = err.response));
   return response ? response.data.data || [] : [];
+}
+
+export async function likePost(post, token) {
+  let response;
+  response = await axios
+    .put(
+      `${url}/api/v1/posts/${post}/like`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .catch((err) => (response = err.response));
+  return response;
 }
