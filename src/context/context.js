@@ -1,5 +1,6 @@
 import React from "react";
 import { getMe, getUsers, readMessages } from "../helpers/functions";
+import { Link } from "react-router-dom";
 const FriendZContext = React.createContext();
 
 function FriendZProvider({ children }) {
@@ -141,6 +142,37 @@ function FriendZProvider({ children }) {
     return time;
   };
 
+  const formatText = (text) => {
+    let finaltext;
+    if (text) {
+      text = text.split("#");
+      for (let i = 0; i < text.length; i++) {
+        if (i === 0) {
+          finaltext = <span>{text[i]}</span>;
+        } else {
+          let hash = text[i].split(" ");
+          finaltext = (
+            <span>
+              {finaltext}{" "}
+              <b>
+                <Link to={`/hashtags/${hash[0]}`} className="text-dark">
+                  {"#" + hash[0]}
+                </Link>
+              </b>
+              {hash.map((item, index) => {
+                return (
+                  <span key={index}>{index !== 0 && " " + item + " "}</span>
+                );
+              })}
+            </span>
+          );
+        }
+      }
+    }
+
+    return finaltext;
+  };
+
   return (
     <FriendZContext.Provider
       value={{
@@ -161,6 +193,7 @@ function FriendZProvider({ children }) {
         closeChat,
         collapseChat,
         openChat,
+        formatText,
       }}
     >
       {children}

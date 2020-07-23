@@ -13,7 +13,7 @@ import { FriendZContext } from "../context/context";
 import Comment from "./Comment";
 
 export default function Post({ data = {} }) {
-  const { user, resolveResponse, formatTime } = React.useContext(
+  const { user, resolveResponse, formatTime, formatText } = React.useContext(
     FriendZContext
   );
   const [post, setpost] = React.useState(data);
@@ -71,26 +71,8 @@ export default function Post({ data = {} }) {
     }
   };
 
-  let text = post.text;
-  let finaltext;
-  if (text) {
-    text = text.split("#");
-    for (let i = 0; i < text.length; i++) {
-      if (i === 0) {
-        finaltext = <span>{text[i]}</span>;
-      } else {
-        let hash = text[i].split(" ");
-        finaltext = (
-          <span>
-            {finaltext} <b>{"#" + hash[0]}</b>
-            {hash.map((item, index) => {
-              return <span key={index}>{index !== 0 && " " + item + " "}</span>;
-            })}
-          </span>
-        );
-      }
-    }
-  }
+  let text = formatText(post.text);
+
   return (
     <div className="post p-3 card card-widget">
       <div className="user-block card-header">
@@ -117,7 +99,7 @@ export default function Post({ data = {} }) {
         </span>
       </div>
       {/* <!-- /.user-block --> */}
-      <p>{finaltext}</p>
+      <p>{text}</p>
       <div className="text-center">
         {post.photos.length > 0 &&
           post.photos.map((item, index) => (

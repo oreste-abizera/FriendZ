@@ -4,6 +4,7 @@ import { url } from "../helpers/url";
 import { FaMinus, FaComments, FaTimes } from "react-icons/fa";
 import { FriendZContext } from "../context/context";
 import { sendMessage, getMessages } from "../helpers/functions";
+import { Link } from "react-router-dom";
 
 export default function Chat() {
   const {
@@ -15,6 +16,7 @@ export default function Chat() {
     user,
     resolveResponse,
     formatTime,
+    formatText,
   } = React.useContext(FriendZContext);
 
   const [message, setmessage] = React.useState("");
@@ -94,15 +96,14 @@ export default function Chat() {
             >
               <FaMinus></FaMinus>
             </button>
-            <button
-              type="button"
+            <Link
+              to="/messages"
               className="btn btn-tool"
-              data-toggle="tooltip"
-              title="Contacts"
-              data-widget="chat-pane-toggle"
+              title="Open in Messenger"
+              onClick={closeChat}
             >
               <FaComments></FaComments>
-            </button>
+            </Link>
             <button type="button" className="btn btn-tool" onClick={closeChat}>
               <FaTimes></FaTimes>
             </button>
@@ -148,7 +149,9 @@ export default function Chat() {
                     src={`${url}/uploads/${item.from.image}`}
                     alt="User"
                   />
-                  <div className="direct-chat-text">{item.message}</div>
+                  <div className="direct-chat-text">
+                    {formatText(item.message)}
+                  </div>
                 </div>
               );
             })}

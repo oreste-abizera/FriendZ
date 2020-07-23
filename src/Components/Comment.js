@@ -4,7 +4,7 @@ import { FriendZContext } from "../context/context";
 import { Link } from "react-router-dom";
 
 export default function Comment({ data = {} }) {
-  const { formatTime } = React.useContext(FriendZContext);
+  const { formatTime, formatText } = React.useContext(FriendZContext);
   return (
     <div className="card-comment">
       <img
@@ -22,7 +22,7 @@ export default function Comment({ data = {} }) {
             {formatTime(data.createdAt)}
           </span>
         </span>
-        {data.message}
+        {formatText(data.message)}
       </div>
     </div>
   );
