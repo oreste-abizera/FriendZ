@@ -54,7 +54,9 @@ export default function RightLinks() {
           to="#"
         >
           <FaComments></FaComments>
-          <span className="badge badge-danger navbar-badge">3</span>
+          <span className="badge badge-danger navbar-badge">
+            {latestchats.length}
+          </span>
         </Link>
         <div
           className={

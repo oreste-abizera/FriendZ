@@ -70,6 +70,27 @@ export default function Post({ data = {} }) {
       setpost(await getPost(data._id, user.token));
     }
   };
+
+  let text = post.text;
+  let finaltext;
+  if (text) {
+    text = text.split("#");
+    for (let i = 0; i < text.length; i++) {
+      if (i === 0) {
+        finaltext = <span>{text[i]}</span>;
+      } else {
+        let hash = text[i].split(" ");
+        finaltext = (
+          <span>
+            {finaltext} <b>{"#" + hash[0]}</b>
+            {hash.map((item, index) => {
+              return <span key={index}>{index !== 0 && " " + item + " "}</span>;
+            })}
+          </span>
+        );
+      }
+    }
+  }
   return (
     <div className="post p-3 card card-widget">
       <div className="user-block card-header">
@@ -96,7 +117,7 @@ export default function Post({ data = {} }) {
         </span>
       </div>
       {/* <!-- /.user-block --> */}
-      <p>{post.text}</p>
+      <p>{finaltext}</p>
       <div className="text-center">
         {post.photos.length > 0 &&
           post.photos.map((item, index) => (

@@ -12,7 +12,7 @@ function FriendZProvider({ children }) {
 
   //state values
   const [controlSidebar, setcontrolSidebar] = React.useState(false);
-  const [dropdown, setdropdown] = React.useState("messages");
+  const [dropdown, setdropdown] = React.useState("");
   const [sidebarOpen, setsidebarOpen] = React.useState(false);
   const [user, setuser] = React.useState(getUserFromSessionStorage);
   const [users, setusers] = React.useState([]);
