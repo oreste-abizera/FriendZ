@@ -16,6 +16,7 @@ export default function ProfileInfo({
   const {
     user: { info },
     user: me,
+    openChat,
   } = React.useContext(FriendZContext);
   const [posts, setposts] = React.useState([]);
 
@@ -86,8 +87,18 @@ export default function ProfileInfo({
           </div>
         </div>
 
-        <div className="card-body">
+        <div className="card-body mt-3">
           <h3 className="text-center widget-user-username">{name}</h3>
+          {user._id !== info._id && (
+            <div className="text-center">
+              <button
+                onClick={() => openChat(user._id)}
+                className="btn btn-sm my-1 btn-primary"
+              >
+                Message
+              </button>
+            </div>
+          )}
           <ul className="list-group list-group-unbordered mb-3">
             <li className="list-group-item">
               <b>Followers</b> <span className="float-right">1,322</span>

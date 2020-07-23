@@ -15,11 +15,13 @@ import { FriendZContext } from "./context/context";
 import ProfilePage from "./Pages/secured/ProfilePage";
 import UpdatePicturesPage from "./Pages/secured/UpdatePicturesPage";
 import CreatePostsPage from "./Pages/secured/CreatePostsPage";
+import Chat from "./Components/Chat";
 
 export default function Routes() {
   const { user } = React.useContext(FriendZContext);
   return (
     <>
+      {user.token && <Chat></Chat>}
       <Switch>
         <Route exact path="/" component={Homepage}></Route>
         <Route exact path="/login" component={LoginPage}></Route>

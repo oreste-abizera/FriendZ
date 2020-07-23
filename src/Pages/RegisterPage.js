@@ -126,7 +126,7 @@ export default function RegisterPage({ history }) {
                   <div className="checkbox icheck">
                     <label>
                       <input type="checkbox" required /> I agree to the{" "}
-                      <a href="/register">terms</a>
+                      <Link href="/register">terms</Link>
                     </label>
                   </div>
                 </div>

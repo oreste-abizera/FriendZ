@@ -167,3 +167,47 @@ export async function likePost(post, token) {
     .catch((err) => (response = err.response));
   return response;
 }
+
+export async function sendMessage(data, user, token) {
+  let response;
+  response = await axios
+    .post(`${url}/api/v1/users/${user}/messages`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .catch((err) => (response = err.response));
+  return response;
+}
+
+export async function getMessages(user, token) {
+  let response;
+  response = await axios
+    .get(`${url}/api/v1/users/${user}/messages`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .catch((err) => (response = err.response));
+  return response ? response.data.data || [] : [];
+}
+
+export async function readMessages(user, token) {
+  let response;
+  response = await axios
+    .put(
+      `${url}/api/v1/users/${user}/messages`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
+    .catch((err) => (response = err.response));
+  return response;
+}
+
+export async function getlatestchats(token) {
+  let response;
+  response = await axios
+    .get(`${url}/api/v1/users/me/messages/chats`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .catch((err) => (response = err.response));
+  return response ? response.data.data || [] : [];
+}

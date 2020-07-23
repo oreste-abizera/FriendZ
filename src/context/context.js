@@ -1,5 +1,5 @@
 import React from "react";
-import { getMe, getUsers } from "../helpers/functions";
+import { getMe, getUsers, readMessages } from "../helpers/functions";
 const FriendZContext = React.createContext();
 
 function FriendZProvider({ children }) {
@@ -12,10 +12,14 @@ function FriendZProvider({ children }) {
 
   //state values
   const [controlSidebar, setcontrolSidebar] = React.useState(false);
-  const [dropdown, setdropdown] = React.useState("");
+  const [dropdown, setdropdown] = React.useState("messages");
   const [sidebarOpen, setsidebarOpen] = React.useState(false);
   const [user, setuser] = React.useState(getUserFromSessionStorage);
   const [users, setusers] = React.useState([]);
+  const [currentchat, setcurrentchat] = React.useState({
+    user: null,
+    state: "collapse",
+  });
   const [reload, setreload] = React.useState(false);
 
   //sync user to sessionStorage
@@ -40,12 +44,23 @@ function FriendZProvider({ children }) {
     }
   };
 
+  async function readmessages() {
+    await readMessages(currentchat.user, user.token);
+    setreload(!reload);
+  }
+
   React.useEffect(() => {
     if (user.token) {
       userLogin(user);
     }
     mount();
   }, [user, reload]);
+
+  React.useEffect(() => {
+    if (currentchat.user && currentchat.state !== "closed") {
+      readmessages();
+    }
+  }, [currentchat]);
 
   const resolveResponse = (response, message) => {
     let { success, error } = response.data;
@@ -74,6 +89,27 @@ function FriendZProvider({ children }) {
     setsidebarOpen(!sidebarOpen);
   };
 
+  const changecurrentchat = ({ state, user }) => {
+    let tempchat = { ...currentchat };
+    tempchat.state = state || tempchat.state;
+    if (state === "shown") {
+      tempchat.user = user || tempchat.user;
+    }
+    setcurrentchat(tempchat);
+  };
+
+  const closeChat = () => {
+    changecurrentchat({ state: "closed", user: null });
+  };
+
+  const collapseChat = () => {
+    changecurrentchat({ state: "collapse" });
+  };
+
+  const openChat = (user) => {
+    changecurrentchat({ state: "shown", user });
+  };
+
   const formatTime = (timeToFormat) => {
     let today = new Date().toISOString();
     let time = new Date(timeToFormat).toISOString();
@@ -84,8 +120,15 @@ function FriendZProvider({ children }) {
     let minutes = rest.split(":")[1];
 
     let finalDate;
-    if (date === today.split("T")[0]) {
+    let todayDate = today.split("T")[0];
+    if (date === todayDate) {
       finalDate = "today";
+    } else if (
+      todayDate.split("-")[0] === date.split("-")[0] &&
+      todayDate.split("-")[1] === date.split("-")[1] &&
+      parseInt(todayDate.split("-")[2]) - 1 === parseInt(date.split("-")[2])
+    ) {
+      finalDate = "yesterday";
     } else {
       finalDate =
         date.split("-")[2] +
@@ -114,6 +157,10 @@ function FriendZProvider({ children }) {
         resolveResponse,
         reloadContent,
         formatTime,
+        currentchat,
+        closeChat,
+        collapseChat,
+        openChat,
       }}
     >
       {children}

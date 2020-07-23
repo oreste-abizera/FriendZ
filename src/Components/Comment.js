@@ -1,6 +1,7 @@
 import React from "react";
 import { url } from "../helpers/url";
 import { FriendZContext } from "../context/context";
+import { Link } from "react-router-dom";
 
 export default function Comment({ data = {} }) {
   const { formatTime } = React.useContext(FriendZContext);
@@ -14,7 +15,9 @@ export default function Comment({ data = {} }) {
 
       <div className="comment-text">
         <span className="username">
-          {data.user.firstName + " " + data.user.lastName}
+          <Link to={`/profile/${data.user._id}`} className="link-black">
+            {data.user.firstName + " " + data.user.lastName}
+          </Link>
           <span className="text-muted float-right">
             {formatTime(data.createdAt)}
           </span>

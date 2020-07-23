@@ -6,7 +6,7 @@ import { url, defaultImage } from "../../helpers/url";
 import Link from "react-router-dom/Link";
 
 export default function LatestMembers() {
-  const { user } = React.useContext(FriendZContext);
+  const { user, formatTime } = React.useContext(FriendZContext);
   const [latestMembers, setlatestMembers] = React.useState([]);
   async function getMembers() {
     let members = await getLatestMembers(user.token);
@@ -37,8 +37,7 @@ export default function LatestMembers() {
       <div className="card-body p-0">
         <ul className="users-list clearfix">
           {latestMembers.map((item) => {
-            let date = item.createdAt.split("T")[0];
-            date = date.split("-")[2] + "/" + date.split("-")[1];
+            let date = formatTime(item.createdAt).split(" ")[1];
             return (
               <li key={item._id}>
                 <img

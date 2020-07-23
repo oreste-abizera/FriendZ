@@ -6,8 +6,6 @@ import {
   FaEnvelope,
   FaUsers,
   FaFile,
-  FaClock,
-  FaStar,
   FaUser,
   FaUserEdit,
   FaCog,
@@ -15,6 +13,8 @@ import {
 } from "react-icons/fa";
 import Link from "react-router-dom/Link";
 import { FriendZContext } from "../../context/context";
+import Message from "./Message";
+import { getlatestchats } from "../../helpers/functions";
 
 export default function RightLinks() {
   const {
@@ -23,7 +23,17 @@ export default function RightLinks() {
     handleDropdown,
     userLogout,
     user,
+    reload,
   } = React.useContext(FriendZContext);
+
+  const [latestchats, setlatestchats] = React.useState([]);
+
+  const loadlatestchats = async () => {
+    setlatestchats(await getlatestchats(user.token));
+  };
+  React.useEffect(() => {
+    loadlatestchats();
+  }, [dropdown, reload]);
 
   return (
     <ul className="navbar-nav ml-auto">
@@ -53,33 +63,15 @@ export default function RightLinks() {
               : "dropdown-menu dropdown-menu-lg dropdown-menu-right"
           }
         >
-          <a href="/messages" className="dropdown-item">
-            {/* <!-- Message Start --> */}
-            <div className="media">
-              <img
-                src="./assets/images/profile.jpg"
-                alt="User Avatar"
-                className="img-size-50 mr-3 img-circle"
-              />
-              <div className="media-body">
-                <h3 className="dropdown-item-title">
-                  Brad Diesel
-                  <span className="float-right text-sm text-danger">
-                    <FaStar></FaStar>
-                  </span>
-                </h3>
-                <p className="text-sm">Call me whenever you can...</p>
-                <p className="text-sm text-muted">
-                  <FaClock className="mr-1"></FaClock> 4 Hours Ago
-                </p>
-              </div>
-            </div>
-            {/* <!-- Message End --> */}
-          </a>
-          <div className="dropdown-divider"></div>
-          <a href="/messages" className="dropdown-item dropdown-footer">
+          {latestchats.length === 0 && (
+            <p className="p-4">Your latest messages will appear here.</p>
+          )}
+          {latestchats.map((item) => (
+            <Message key={item._id} currentChat={item}></Message>
+          ))}
+          <Link to="/messages" className="dropdown-item dropdown-footer">
             See All Messages
-          </a>
+          </Link>
         </div>
       </li>
       {/* <!-- Notifications Dropdown Menu --> */}
