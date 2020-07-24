@@ -50,7 +50,7 @@ export default function Sidebar() {
             <img src={image} className="img-circle elevation-2" alt="User" />
           </div>
           <div className="info">
-            <Link to={`profile/${user._id}`} className="d-block">
+            <Link to={`/profile/${user._id}`} className="d-block">
               {name}
             </Link>
           </div>

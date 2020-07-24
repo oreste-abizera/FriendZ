@@ -84,7 +84,7 @@ export default function Post({ data = {} }) {
             {tags.length > 0 && (
               <span>
                 {post.message ? " with " : " is with "}
-                <Link to={`profile/${tags[0]._id}`}>
+                <Link to={`/profile/${tags[0]._id}`}>
                   <b>{tags[0].firstName + " " + tags[0].lastName}</b>
                 </Link>
                 {tags.length > 1 && (

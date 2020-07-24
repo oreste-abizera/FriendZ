@@ -1,5 +1,10 @@
 import React from "react";
-import { getMe, getUsers, readMessages } from "../helpers/functions";
+import {
+  getMe,
+  getUsers,
+  readMessages,
+  getlatestchats,
+} from "../helpers/functions";
 import { Link } from "react-router-dom";
 const FriendZContext = React.createContext();
 
@@ -17,6 +22,7 @@ function FriendZProvider({ children }) {
   const [sidebarOpen, setsidebarOpen] = React.useState(false);
   const [user, setuser] = React.useState(getUserFromSessionStorage);
   const [users, setusers] = React.useState([]);
+  const [latestchats, setlatestchats] = React.useState([]);
   const [currentchat, setcurrentchat] = React.useState({
     user: null,
     state: "collapse",
@@ -111,6 +117,10 @@ function FriendZProvider({ children }) {
     changecurrentchat({ state: "shown", user });
   };
 
+  const loadlatestchats = async () => {
+    setlatestchats(await getlatestchats(user.token));
+  };
+
   const formatTime = (timeToFormat) => {
     let today = new Date().toISOString();
     let time = new Date(timeToFormat).toISOString();
@@ -194,6 +204,8 @@ function FriendZProvider({ children }) {
         collapseChat,
         openChat,
         formatText,
+        latestchats,
+        loadlatestchats,
       }}
     >
       {children}

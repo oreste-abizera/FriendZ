@@ -14,7 +14,6 @@ import {
 import Link from "react-router-dom/Link";
 import { FriendZContext } from "../../context/context";
 import Message from "./Message";
-import { getlatestchats } from "../../helpers/functions";
 
 export default function RightLinks() {
   const {
@@ -24,13 +23,10 @@ export default function RightLinks() {
     userLogout,
     user,
     reload,
+    latestchats,
+    loadlatestchats,
   } = React.useContext(FriendZContext);
 
-  const [latestchats, setlatestchats] = React.useState([]);
-
-  const loadlatestchats = async () => {
-    setlatestchats(await getlatestchats(user.token));
-  };
   React.useEffect(() => {
     loadlatestchats();
   }, [dropdown, reload]);
